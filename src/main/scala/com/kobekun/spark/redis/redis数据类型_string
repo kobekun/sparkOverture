@@ -1,0 +1,66 @@
+
+string
+
+    最简单数据类型  help xxx
+    文本、数字、二进制
+
+    > mset user1 jepson user2 xingxing
+    > get user2
+         "xingxing"
+    > mget user1 user2
+        1) "jepson"
+        2) "xingxing"
+    > set user1 kobekun-spark
+    > mget user1 user2
+              1) "kobekun-spark"
+              2) "xingxing"
+    > setnx user1 "kobekun-spark-flink"  ==> user1 有就不动，没有就设置
+       0
+
+    > set money 100
+    > incr money
+        "101"
+    > incr money
+        "102"
+    > incr money
+        "103"
+    > decr money
+        "102"
+
+    > incrby money 100
+        "202"
+    > incrby money 100
+        "302"
+    > decrby money 10
+        "292"
+    > decrby money 10
+        "282"
+    > incr money 11.1  xxx
+        ERR value is not an integer or out of range
+
+    > incrbyfloat money 11.1
+        "293.1"
+    无decrbyfloat  可用incrbyfloat money -11.1
+
+
+    > set age abc
+    > incr age
+        ERR value is not an integer or out of range
+
+
+    > append user1 -flink
+    > get user1
+        "kobekun-spark-flink"
+
+    > strlen user1
+        19
+
+    > set msg "hello world"
+    > getrange msg 0 4
+        "hello"
+    > getrange msg -5 -1
+        "world"
+
+
+
+
