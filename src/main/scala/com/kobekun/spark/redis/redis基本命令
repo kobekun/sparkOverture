@@ -1,0 +1,49 @@
+
+查询符合规则的key名称：
+
+set user kobekun  => set key value
+keys *  => 将key列出来
+
+set user1 jepson
+set user2 xingxing
+
+keys user*   => 匹配*任意个
+keys user?   => 匹配一个字符
+keys user[0-9]
+
+判断一个key是否存在
+
+exist user
+exist user1
+exist user2
+
+删除key
+
+del key1 key2 ...
+
+批量删除
+
+用命令删除 src/redis-cli del `src/redis-cli keys "user*"`
+
+获取key的类型
+set user kobekun
+type user  => string
+
+命令--> help@string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
