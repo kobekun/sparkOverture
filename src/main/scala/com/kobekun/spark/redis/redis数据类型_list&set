@@ -1,0 +1,108 @@
+
+list
+
+有序方式存储多个可以重复的值，可以重复而且不唯一
+
+进入客户端：src/redis-cli -h hadoop000 -p 6379
+
+> lpush list a
+> lpush list b
+> lpush list c
+
+        list => {"c","b","a"}
+
+> rpush list x
+        list => {"c","b","a","x"}
+
+> lpop  从左边弹出一个元素
+> rpop  从右边弹出一个元素
+
+> llen list  得到list的长度
+> lrange list 0 -1
+> lrange list 0 2
+> lrange list 0 0
+
+> del list
+> lpush list a b c a x z a
+
+> lrem list 2 a 从左边开始删掉两个a
+> lrem list -1 a 从右边删除一个(负1绝对值个)a
+> lrem list 0 a 删除所有的a
+
+> lindex list 0
+> lindex list 1 获取索引
+
+> lindex list 0
+    "z"
+> lset list 0 a
+> lindex list 0
+    "a"
+
+> ltrim list 0 2 截取list后的list
+> linsert list before x b  在x的前面插入b
+> linsert list after x y  在x的后面插入y
+
+rpoplpush source destination
+
+> rpoplpush list list_new  把list中最后一个元素移除到list_new中  *****
+
+
+消息队列
+
+help @list
+lpush/rpush/lpop/rpop/
+llen/lrange
+lset
+lindex
+ltrim
+linsert
+rpoplpush
+
+
+set 不重复 无序
+
+> sadd set a
+> sadd set b
+> sadd set c
+> sadd set x
+> smembers set 查看set的成员
+> srem set a b 移除成员
+> sismember set a
+    0
+> sismember set x
+    1
+
+重复元素不往里面加
+
+> sdiff set set1 比较两个set的不同，并返回set中的不同元素 (set中有set1中没有的)
+> sdiff set1 set
+
+> sinter set set1 求交集
+> sunion set set1 求并集
+> sunionstore kobekunset set set1 将set和set1中的重复的元素保存到kobekunset中
+
+> scard set  得到set成员个数
+
+> spop set 弹出元素
+> srandmemeber set1 2 从set1中随机取两个元素
+> srandmemeber set1 -2 从set1中随机取两个元素,结果可能重复
+
+help @set
+sadd/smember/srem/sismember
+sdiff/sinter/sunion
+sdiffstore
+scard
+srandmember key [count]
+
+场景：微博\twitter  --> 共同关注的事
+
+
+
+
+
+
+
+
+
+
+
