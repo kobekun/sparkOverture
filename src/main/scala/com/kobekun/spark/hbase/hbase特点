@@ -1,0 +1,54 @@
+
+hbase特点：
+
+    大
+    面向列：列族(可以存放很多列)，列族/列独立索引
+    稀疏：对于空的列不会占用空间
+    数据类型单一：byte/string
+    无模式：每一行所对于的列不一定相同，每一行的列是hi可以动态添加的
+    数据多版本：比如company可以存放不同版本的值
+        默认情况下版本号是自动分配的，是的列的值插入时的时间戳
+
+
+
+hbase vs mysql
+    1) 数据类型
+    2) 数据操作
+        关联查询：MapReduce/spark/phoenix
+        get/put/scan
+    3) 存储模式
+
+    4)transaction
+    5) 数据量
+    6) 读写的吞吐量
+
+
+ hbase vs hdfs
+    1) write pattern
+    2) read pattern
+    3) sql
+    4) data size
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
