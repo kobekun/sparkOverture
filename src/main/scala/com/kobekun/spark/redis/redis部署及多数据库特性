@@ -1,0 +1,35 @@
+
+下载
+解压
+编译
+    make
+    sudo make install
+
+配置文件： redis.conf
+
+    daemonize yes
+    logfile "/home/hadoop/app/tmp/redis/redis.log"
+
+    启动服务器redis：src/redis-server redis.conf
+    启动客户端：src/redis-cli [-h 127.0.0.1] [-p 6379]
+    停redis：src/redis-cli shutdown
+
+
+    /etc/hosts  --> ip和主机名映射
+
+
+
+redis 多数据库特性
+
+    redis，
+        也是支持多数据库，但是数据库不需要我们手工创建，redis启动的时候已经创建
+        以0为编号进行递增
+        默认支持16个数据库  可以通过redis.conf进行修改
+        redis-cli 默认选择的是0号数据库  select dbid 来切换数据库
+        多数据库之间是相互隔离，但也有特殊的
+
+        flushall   清空数据库，慎用，不是相互隔离的
+
+
+
+
