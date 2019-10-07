@@ -1,0 +1,75 @@
+
+
+redis基于内存的面向key-value数据类型的数据库
+key 通常都是string类型
+value  类型较多：1、string 2、hash 3、list 4、set 5、有序集合 sorted set
+
+redis特点：
+    数据访问速度快 --> 10w QPS(读) 内存(对比hdfs NN) 一个redis是一个单线程
+    持久化 --> 内存中的数据每个一段时间就报存到磁盘上
+                RDB(快照 周期性)  AOF(日志 写操作命令写入到日志文件)
+                同时可以使用RDB和AOF：优先使用AOF
+    多种数据结构
+    多种编程语言：java、PHP、python、ruby
+    丰富的功能：发布订阅、Lua脚本、事务、pipeline
+    简单易用：不依赖外部库、单线程
+    主从复制：HA
+    高可用和分布式：redis-sentinel(2.8) redis-cluster(3.0)
+
+redis 应用场景
+    cache 缓存系统：  如果数据有，从redis中取，如果没有，从DB中取
+    计数器：     评论数、点赞数 automic increment 设置过期
+    消息队列：    kafka
+    排行榜：     有序集合
+    社交：
+    过期处理：
+
+
+查询符合规则的key名称：
+
+set user kobekun  => set key value
+keys *  => 将key列出来
+
+set user1 jepson
+set user2 xingxing
+
+keys user*   => 匹配*任意个
+keys user?   => 匹配一个字符
+keys user[0-9]
+
+判断一个key是否存在
+
+exist user
+exist user1
+exist user2
+
+删除key
+
+del key1 key2 ...
+
+批量删除
+
+用命令删除 src/redis-cli del `src/redis-cli keys "user*"`
+
+获取key的类型
+set user kobekun
+type user  => string
+
+命令--> help@string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
