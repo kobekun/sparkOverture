@@ -1,0 +1,82 @@
+
+
+hbase当数据库使用
+
+        DDL：对表的操作
+            create 'member','member_id','address','info'
+
+            表名 member  cf(columnfamily)  'member_id','address','info'
+
+            desc 'member' 查看表结构
+            list 查看有多少表
+
+            alter 'member','delete'=>'member_id' 删除列族
+
+            disable 'member'
+            drop 'member'  删除表
+
+        DML：对表记录的增删改查
+            查看表 scan 'member'
+            插入数据  => put 表名,rowkey,cf:column,value
+                        put 'member','kobekun','info:age','28'
+                        put 'member','kobekun','info:birthday','1992-08-16'
+                        put 'member','kobekun','info:company','imooc'
+                        put 'member','kobekun','address:country','CN'
+                        put 'member','kobekun','address:province','liaoning'
+                        put 'member','kobekun','address:city','jinzhou'
+
+                        put 'member','zhangsan','info:age','25'
+                        put 'member','zhangsan','info:birthday','1995-08-27'
+                        put 'member','zhangsan','info:company','apple'
+                        put 'member','zhangsan','address:country','CN'
+                        put 'member','zhangsan','address:province','shanxi'
+                        put 'member','zhangsan','address:city','xianyang'
+
+            hbase(main):017:0> scan 'member'
+            ROW                                        COLUMN+CELL
+             kobekun                                   column=info:age, timestamp=1571063312934, value=28
+             kobekun                                   column=info:birthday, timestamp=1571063475808, value=1992-08-16
+             kobekun                                   column=info:company, timestamp=1571063478075, value=imooc
+            1 row(s) in 0.0540 seconds
+            1行信息
+
+            hbase(main):022:0> scan 'member'
+            ROW                                        COLUMN+CELL
+             kobekun                                   column=address:city, timestamp=1571063648670, value=jinzhou
+             kobekun                                   column=address:country, timestamp=1571063646690, value=CN
+             kobekun                                   column=address:province, timestamp=1571063646809, value=liaoning
+             kobekun                                   column=info:age, timestamp=1571063312934, value=28
+             kobekun                                   column=info:birthday, timestamp=1571063475808, value=1992-08-16
+             kobekun                                   column=info:company, timestamp=1571063478075, value=imooc
+            1 row(s) in 0.0600 seconds
+            1行信息
+
+            hbase(main):029:0> scan 'member'
+            ROW                                        COLUMN+CELL
+             kobekun                                   column=address:city, timestamp=1571063648670, value=jinzhou
+             kobekun                                   column=address:country, timestamp=1571063646690, value=CN
+             kobekun                                   column=address:province, timestamp=1571063646809, value=liaoning
+             kobekun                                   column=info:age, timestamp=1571063312934, value=28
+             kobekun                                   column=info:birthday, timestamp=1571063475808, value=1992-08-16
+             kobekun                                   column=info:company, timestamp=1571063478075, value=imooc
+             zhangsan                                  column=address:city, timestamp=1571063912837, value=xianyang
+             zhangsan                                  column=address:country, timestamp=1571063911398, value=CN
+             zhangsan                                  column=address:province, timestamp=1571063911452, value=shanxi
+             zhangsan                                  column=info:age, timestamp=1571063911024, value=25
+             zhangsan                                  column=info:birthday, timestamp=1571063911167, value=1995-08-27
+             zhangsan                                  column=info:company, timestamp=1571063911337, value=apple
+            2 row(s) in 0.1390 seconds
+            2行信息
+
+
+            查询rowkey记录  get 'member','kobekun'
+            获取指定列族的信息 get 'member','kobekun','info'
+            获取指定列族的信息 get 'member','kobekun','info:age'
+
+            更新 put 'member','zhangsan','info:age','18'
+
+            删除 delete 'member','kobekun','info:age'
+            删除整行     deleteall 'member','zhangsan'
+
+            统计表的记录 count 'member'
+            清空表 truncate 'member'
