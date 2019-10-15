@@ -1,0 +1,19 @@
+
+hbase编程小结
+
+Connection
+Admin
+HTableDescriptor
+HcolumnDescriptor
+创建表
+删除表
+添加记录：单条、多条
+修改记录
+根据rowkey获取单条记录
+Scan: 空、起始、起始结尾、Get
+Filter: RowFilter、PrefixFilter、FilterList
+
+
+
+
+
