@@ -1,0 +1,55 @@
+
+
+离线项目的架构和处理流程
+
+    数据采集：落地到hdfs 外部将数据采集到内部
+        SDK数据 ==> 日志 ==> Hadoop
+        server日志 ：flume、logstash
+        数据库：sqoop
+
+        采集过来的数据直接放在hdfs上
+
+    数据预处理/数据清洗：脏、乱数据 ==> 数据规整化  *****
+
+        [30/Jan/2019:00:00:22 +0800] ==> 时间解析
+        按照指定的分割符号进行拆分
+        加字段
+            ip ==> 城市、运营商、经纬度
+        减字段
+
+        使用技术：spark
+
+        hdfs => spark => hbase
+
+    数据入库：把规整化的数据写入到存储  *****
+        hive、hbase、redis
+
+        使用技术：hbase
+
+        rowkey设计
+        cf
+        column
+
+    数据分析  *****
+        出报表的核心
+        统计分析结果可以找地方存储起来
+        使用技术：spark
+
+        hbase => MapReduce/spark => 业务逻辑分析(代码) => DB
+        hbase => hive/sparksql => sql => DB
+
+    数据展示
+        将分析得到的数据进行可视化
+        使用技术：HUE、Zeppeline、Echarts、自研
+
+
+
+
+
+
+
+
+
+
+
+
