@@ -14,9 +14,17 @@
         spark core
         spark sql
 
+spark:
+    日誌按照統計需求清洗到hbase表中
+        log ==> df
+        df ==> put
+        spark 把put寫入到hbase中
 
-
-
+    對hbase表中的數據進行維度指標的統計分析操作
+        spark把hbase中的Result讀取出來
+            使用RDD進行統計分析
+            使用DataFrame API進行統計分析
+            使用SparkSQL API進行統計分析
 
 
 
