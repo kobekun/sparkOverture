@@ -42,17 +42,19 @@ object ImoocLog extends Logging{
       System.exit(1)
     }
 
-    val day = "20190130"  //先寫死，後面通過shell腳本將時間傳進來
-    val input = s"hdfs://hadoop001:8020/access/$day/test-access.log"
+    val day = args(0)
+//    val day = "20190130"  //先寫死，後面通過shell腳本將時間傳進來
+    val input = s"hdfs://hadoop001:8020/access/$day/*"
 
-    val spark = SparkSession.builder()
-      .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
-      .appName("ImoocLog")
-      .master("local[2]")
-      .getOrCreate()
-
+//    val spark = SparkSession.builder()
+//      .config("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+//      .appName("ImoocLog")
+//      .master("local[2]")
+//      .getOrCreate()
 //    val sparkConf = new SparkConf()
 //    sparkConf.set("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+
+    val spark = SparkSession.builder().getOrCreate()
 
     System.setProperty("icode", "EE09C17060084BD7")
 
