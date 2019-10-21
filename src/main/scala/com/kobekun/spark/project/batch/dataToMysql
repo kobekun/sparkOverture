@@ -1,0 +1,25 @@
+
+
+
+将统计结果写入到mysql
+    1) pom.xml中添加mysql driver的dependency
+    2) 创建统计结果存储到mysql表
+    3) RDD ==> mysql
+
+create table if not exists browser_stat(
+    day varchar(10) not null,
+    browser varchar(100) not null,
+    cnt int
+)engine=innodb default charset=utf8;
+
+
+重跑问题 pstmt.addBatch(s"delete from browser_stat where day=$day")
+
+jdbc写入数据到mysql
+DataFrame/Dataset的数据通过 format("jdbc")直接写入到mysql是不是更方便？
+
+
+
+
+
+
