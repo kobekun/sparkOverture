@@ -1,0 +1,35 @@
+
+hbase架构图
+    WAL：write-ahead log 预写日志
+        灾难恢复，一旦服务器崩溃，通过重放log，key恢复之前的数据
+        如果写入WAL失败，整个操作也就认为是失败
+        写操作性能降低
+        不写WAL，手工刷新memstore的数据落地
+
+
+    yarn 端口 8032
+
+    yarn的RM挂了 RM HA ==> 就有效吗？如何还能提交作业
+
+
+HFile是hbase底层的存储数据的格式
+    ？？？直接用spark将DF/RDD的数据生成HFile文件，数据load到hbase表中
+
+    优化点：生成HFile，load进来
+
+
+现在数据已经存储在hbase上，后面统计分析的spark作业，是否在统计分析的时候直接查询HFile文件呢
+
+可以
+
+
+写数据
+    put
+    disable WAL
+    HFile
+读数据
+    RDD
+    sparkSQL/DF/DS
+
+
+spark hbase 架构带来的好处是什么？是否存在不便的地方？如果有不便的地方，如何改进？
