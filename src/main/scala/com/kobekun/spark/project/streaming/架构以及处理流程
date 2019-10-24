@@ -1,0 +1,65 @@
+
+
+流处理系统
+    spark streaming
+    structured streaming
+    flink
+    storm
+    kafka stream
+
+项目架构及处理流程：
+    log => flume => kafka => spark streaming(Direct) ==> redis
+    实时：代码来生成订单日志 => kafka => spark streaming(Direct) ==> redis
+    离线：hdfs => spark => hbase
+
+
+大数据团队分工：采集、批处理、实时处理、API、前端
+
+
+项目需求
+    1) 统计每天付费成功的总订单数、订单总金额
+    2) 统计每个小时付费成功的总订单数、订单金额
+    ==> 统计每分钟付费成功的总订单数、订单金额
+    ==> 统计基于window付费成功的总订单数、订单金额
+    ==> 付费订单占到总下单的占比：按天、小时、分钟
+
+    sparkstreaming 进行统计分析，分析结果写入到redis
+
+
+
+spark streaming&kafka&redis整合
+离线日志：访问日志
+实时日志：付费日志
+    下单，但是没付钱
+    下单，付钱
+    time,userid,courseid,orderid,fee
+
+
+1) 启动zk  cd $ZK_HOME/bin  ./zkServer.sh start
+2) 启动kafka 到kafka的bin目录下，
+./kafka-server-start.sh -daemon $KAFKA_HOME/config/server.properties
+3) 创建topic
+./kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1
+--partitions 1 --topic kafka_streaming_kobekun_topic
+4) 查询topic
+./kafka-topics.sh --list --zookeeper localhost:2181
+5) 通过控制台测试topic是否能够正常的生产和消费信息
+./kafka-console-producer.sh --broker-list localhost:9092 --topic kafka_streaming_kobekun_topic
+./kafka-console-consumer.sh --zookeeper localhost:2181 --topic kafka_streaming_kobekun_topic
+
+
+
+# 新生产者（支持0.9版本+）
+./kafka-console-producer.sh --broker-list localhost:9092 --topic kobekunkafka --producer.config ../config/producer.properties
+
+## 新消费者（支持0.9版本+）
+./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kobekunkafka --new-consumer --from-beginning --consumer.config ../config/consumer.properties
+
+
+
+
+
+
+
+
+
