@@ -55,8 +55,53 @@ spark streaming&kafka&redis整合
 ## 新消费者（支持0.9版本+）
 ./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic kobekunkafka --new-consumer --from-beginning --consumer.config ../config/consumer.properties
 
+作业：自己根据离线项目的讲解，把实时项目打包到服务器上运行(有坑)
 
+"auto.offset.reset" -> "latest"
+spark挂了，kafka还在运行，数据有丢失
 
+kafka offset管理
+
+创建streaming context
+从kafka中获取要处理的数据
+根据业务处理数据
+处理结果入库
+启动程序，等待程序终止
+
+挂了：kafka数据到底是从头开始，还是从最新开始
+
+正确的做法：
+    第一次应用程序启动的时候，要从某个地方获取到已经消费过的offset
+    业务逻辑处理完后，应该要把已经处理完的offset保存到某个地方去
+
+offset 存储的地方
+    checkpoint
+    kafka
+    zk/mysql/hbase/redis
+
+http://spark.apache.org/docs/latest/streaming-kafka-0-10-integration.html#storing-offsets
+
+    Obtaining Offsets
+
+    stream.foreachRDD { rdd =>
+      val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
+      rdd.foreachPartition { iter =>
+        val o: OffsetRange = offsetRanges(TaskContext.get.partitionId)
+        println(s"${o.topic} ${o.partition} ${o.fromOffset} ${o.untilOffset}")
+      }
+    }
+
+    Storing Offsets
+
+    stream.foreachRDD { rdd =>
+      val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
+
+      // some time later, after outputs have completed
+      stream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
+    }
+
+ This is why the stream example above sets “enable.auto.commit” to false.
+ 因为如果数据未入库，而将offset提交之后，数据被标为已消费
 
 
 
