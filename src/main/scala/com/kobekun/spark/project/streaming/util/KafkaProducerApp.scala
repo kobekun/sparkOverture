@@ -48,10 +48,10 @@ object KafkaProducerApp {
 
       val json = new JSONObject(map)
 
-      producer.send(new ProducerRecord[String,String](topic, i+"", json.toString))
+      producer.send(new ProducerRecord[String,String](topic(0), i+"", json.toString))
     }
 
-    println("kobeun kafka生产者生产数据完毕。")
+    println("kobekun kafka生产者生产数据完毕。")
   }
 }
 
