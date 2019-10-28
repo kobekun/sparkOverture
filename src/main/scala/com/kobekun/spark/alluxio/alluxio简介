@@ -1,0 +1,49 @@
+
+alluxio
+
+1、以内存为中心的分布式文件系统  hdfs、s3
+2、介于计算层和存储层之间
+    计算层：spark、flink、MapReduce
+
+   存储层在内存中的一个cache系统
+
+   spark/alluxio 诞生于 AMPlab
+   2012/12 0.1.0
+
+
+很多思路是  计算和存储分离(带来性能的损失)    移动计算优于移动数据
+
+
+时效性的要求越来越高
+
+基于内存 Memory is king
+
+
+spark两面性
+    1) 2 spark application需要共享数据，必须通过写XX操作  (alluxio可以跨不同的框架
+        不同的应用进行数据的共享)
+    2) 基于JVM对数据进行缓存  (可以将数据落在alluxio上)
+        spark application = 1 driver + N executor
+    3) 2 spark application操作相同的数据 (hdfs上读取的相同数据可以直接存储在alluxio上)
+
+alluxio不是顶级的Apache项目
+https://docs.alluxio.io/os/user/stable/en/Overview.html
+
+特点：1) 原生的API和文件系统的非常类似
+2) 兼容性 hadoop spark flink
+3) 列式
+4) 底层的文件系统是可插拔的
+5) web ui
+6) 用户命令行操作
+    hadoop fs -ls ...
+    alluxio fs ...
+
+alluxio部署
+    1) 下载
+    2) 解压到app
+    3) 配置到系统环境变量
+    4) 修改 conf/alluxio-site.properties  conf/masters  conf/workers
+    5) bin目录下格式化(限第一次操作)./alluxio format
+    6) 启动alluxio   ./alluxio-start.sh local SudoMount
+
+alluxio界面：http://hadoop001:19999
