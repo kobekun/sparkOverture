@@ -1,0 +1,38 @@
+
+
+join: shuffle/reduce join   mapjoin(无shuffle)
+
+    val o = xx //20M 算子的外部变量
+    rdd.map(x =>{
+
+        //...
+        o
+    })
+
+    每个task都会获得一份变量o的副本
+
+    20executor 500task ==> 500 * 20M=10G
+
+
+    如果使用了广播变量：
+        每个executor保存一个变量O的副本
+        20 * 20M = 400M
+
+    将product变量广播出去
+    //Driver端执行
+    val product = new ProductClass("test",1,1)
+    val bc = spark.sparkContext.broadcast[ProductClass](product)
+
+    val hbaseInfoRDD = logDF.rdd.map(x => {
+      //executor中获取广播变量，直接使用广播变量的名称.value去获取广播变量
+      val bcValue = bc.value
+        ...
+    })
+
+
+
+
+
+
+
+
