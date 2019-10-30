@@ -1,0 +1,21 @@
+
+
+spark自定义排序：
+
+    class和case class在使用层面有什么区别 ？？？
+
+    1、初始化的时候可以不用new，普通类需要new
+    2、case class默认实现了equals 和hashCode；
+    3、case class默认是可以序列化的，也就是实现了Serializable
+    4、支持模式匹配
+
+
+
+
+
+
+
+
+
+
+
