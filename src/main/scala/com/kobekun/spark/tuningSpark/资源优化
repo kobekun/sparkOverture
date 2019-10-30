@@ -1,0 +1,50 @@
+
+
+spark作业在运行的时候占用多少资源：CPU、memory
+
+    分配足够多的资源，在一定范围内，增加资源和性能提升成正比
+
+    ./bin/spark-submit --class org.apache.spark.examples.SparkPi \
+        --master yarn \
+        --deploy-mode cluster \
+        --driver-memory 4g \  #driver的内存
+        --executor-memory 2g \ #每个Executor的内存
+        --executor-cores 1 \    #Executor的CPU core的数量
+        --queue thequeue \  #运行在yarn的哪个队列上
+        --num-executors 3 \ #executor的数量
+        examples/jars/spark-examples*.jar \
+        10
+
+    尽量将作业的资源调整到最大
+
+    num-executors + ： task的并行度  num*cores
+        4exe 2core =8task
+        8exe 2core =16task  资源充足的话，当然是选择这种
+        100task
+
+    executor-cores + : task的并行度  num*cores
+        4exe 1core =4task
+        4exe 2core =8task  资源充足的话，当然是选择这种
+        100task
+
+    executor-memory + :
+        能cache的数据多 ==> 写入disk的次数降低
+        shuffle 降io
+        jvm   gc方面更友好
+
+    思考：spark ETL hbase运行在yarn之上
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
