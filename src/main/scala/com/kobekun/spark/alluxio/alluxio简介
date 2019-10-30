@@ -46,4 +46,15 @@ alluxio部署
     5) bin目录下格式化(限第一次操作)./alluxio format
     6) 启动alluxio   ./alluxio-start.sh local SudoMount
 
+	停止alluxio：./alluxio-stop.sh local
 alluxio界面：http://hadoop001:19999
+
+
+alluxio在去哪儿网的应用：http://www.360doc.com/content/16/0531/10/13792507_563745087.shtml
+
+在此系统中重点解决异地数据存储和访问慢的问题。将整个流处理流水线的性能总体提高将近10倍
+
+alluxio作为核心存储层，与计算系统部署在一起
+
+alluxio节点部署
+
