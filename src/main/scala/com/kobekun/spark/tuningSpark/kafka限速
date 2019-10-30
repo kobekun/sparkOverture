@@ -1,0 +1,38 @@
+
+
+sparkstreaming对接kafka数据
+    对kafka来说，sparkstreaming应用程序其实就是一个消费者
+    1) streaming程序挂了，那么就没有办法去消费kafka中的数据了，kafka中的数据就会有积压
+    2) 高峰期的时候，由于作业资源没有很好的设置，在某些批次中，很可能数据比较大
+
+    batch时间到了，streaming就会处理这个批次的作业
+    假设：batch time 10s 数据量比较大就会出现10s内根本处理不过来整个批次的数据
+    后续批次的作业就会产生积压，那么时效性就没办法保证
+
+    ===> kafka的限速
+
+    val sparkConf = new SparkConf().setMaster("local[2]")
+                .setAppName("StreamingV2")
+                .set("spark.streaming.kafka.maxRatePerPartition","100")
+
+    假设限速是100  单位  ---> /partiton/s
+
+    10s一个批次
+        topic是一个分区：10 * 1 * 100 = 1000
+        topic是3个分区：10 * 3 * 100 = 3000
+
+    要提升数据处理的吞吐量：提升kafka的分区数
+
+消费的语义
+
+容错的语义：  1) 最多消费一次 At most once  可能会有数据丢失
+             2) 最少消费一次 At least once    重复消费
+             3) 只消费一次 Exactly once  √  既不重复消费，也没有数据丢失
+
+
+
+
+
+
+
+
