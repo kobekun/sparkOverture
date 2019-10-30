@@ -1,0 +1,24 @@
+
+
+pin命令：永远不会将数据踢出内存
+只要是目录被pin过的，新增进来的文件也是pin为yes的
+
+递归查看文件夹下的文件：./alluxio fs lsr /kobekun
+创建文件夹：./alluxio fs mkdir /kobekun
+查看文件：./alluxio fs cat /kobekun/hello.txt
+将本地文件移动到远程目录上：./alluxio fs copyFromLocal hello.txt /kobekun/
+                          ./alluxio fs copyFromLocal hello.txt /kobekun/hello2.txt
+
+查看文件的数量：./alluxio fs count /kobekun
+文件改名：./alluxio fs mv /kobekun/hello.txt /kobekun/hello.txt.bak
+
+查看文件分布在哪个节点上：./alluxio fs location /kobekun/hello.txt    ******
+
+
+
+
+
+
+
+
+
