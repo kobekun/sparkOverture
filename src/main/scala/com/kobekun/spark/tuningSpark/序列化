@@ -1,0 +1,16 @@
+
+
+序列化：spark默认使用java的序列化
+    如果使用Kryo的序列化，conf里必须设置，并注册目标类,使得Kryo进行序列化
+    val sparkConf = new SparkConf()
+    sparkConf.set("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+      .registerKryoClasses(Array(classOf[Product]))
+
+
+
+
+
+
+
+
+
