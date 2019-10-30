@@ -1,0 +1,77 @@
+
+整合HDFS
+
+将$ALLUXIO_HOME/conf/alluxio-site.xml的alluxio-site.properties中的alluxio.underfs.address
+设置为hadoop的地址
+
+alluxio.underfs.address=hdfs://hadoop001:8020
+
+hdfs如果是HA模式的话，需要在alluxio处这样配置：
+
+There are two possible approaches:
+
+Copy or make symbolic links from hdfs-site.xml and core-site.xml from your
+Hadoop installation into ${ALLUXIO_HOME}/conf. Make sure this is set up on
+all servers running Alluxio.
+
+Alternatively, you can set the property alluxio.underfs.hdfs.configuration in
+conf/alluxio-site.properties to point to your hdfs-site.xml and core-site.xml.
+Make sure this configuration is set on all servers running Alluxio.
+
+
+
+配好之后  重启alluxio --> ./alluxio-start.sh local SudoMount
+启动 hadoop的namenode和datanode:
+    ./hadoop-daemon.sh start namenode
+    ./hadoop-daemon.sh start datanode
+
+
+    之后看alluxio界面：http://hadoop001:19999  的目录
+    会是 hdfs上目录和alluxio目录的合集
+
+整合MapReduce
+
+将下面的配置到hadoop的core-site.xml中
+
+<property>
+  <name>fs.alluxio.impl</name>
+  <value>alluxio.hadoop.FileSystem</value>
+  <description>The Alluxio FileSystem</description>
+</property>
+
+配置完后，MapReduce作业将能认出alluxio文件系统的文件
+
+This will allow your MapReduce jobs to recognize URIs
+with Alluxio scheme alluxio:// in their input and output files.
+
+./bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.0-cdh5.7.0.jar wordcount \
+  -libjars /home/hadoop/app/alluxio-1.8.0/client/alluxio-1.8.0-client.jar alluxio://hadoop001:19998/alluxio/wc/input/hello.txt alluxio://hadoop001:19998/alluxio/wc/output
+
+
+需要启动yarn  跑上面的作业
+
+整合spark
+
+$SPARK_HOME/bin/spark-shell --master local[2] --jars /home/hadoop/app/alluxio-1.8.0/client/alluxio-1.8.0-client.jar --driver-class-path /home/hadoop/app/alluxio-1.8.0/client/alluxio-1.8.0-client.jar
+
+做了几个与alluxio的整合，真正的业务逻辑根本没有变化，只是：
+1) 环境上的变化
+2) hdfs ==> alluxio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
