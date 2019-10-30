@@ -3,6 +3,7 @@ package com.kobekun.spark.project.batch
 import java.util.zip.CRC32
 import java.util.{Date, Locale}
 
+import com.kobekun.spark.sort.ProductClass
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.time.FastDateFormat
 import org.apache.hadoop.conf.Configuration
@@ -11,6 +12,7 @@ import org.apache.hadoop.hbase.client.{Admin, Connection, ConnectionFactory, Put
 import org.apache.hadoop.hbase.io.ImmutableBytesWritable
 import org.apache.hadoop.hbase.mapreduce.TableOutputFormat
 import org.apache.hadoop.hbase.util.Bytes
+import org.apache.spark.SparkConf
 import org.apache.spark.internal.Logging
 import org.apache.spark.sql.SparkSession
 
@@ -53,6 +55,9 @@ object ImoocLog extends Logging{
 //      .getOrCreate()
 //    val sparkConf = new SparkConf()
 //    sparkConf.set("spark.serializer","org.apache.spark.serializer.KryoSerializer")
+//      .registerKryoClasses(Array(classOf[Product]))
+
+
 
     val spark = SparkSession.builder().getOrCreate()
 
@@ -82,7 +87,13 @@ object ImoocLog extends Logging{
 
 //    logDF.show(false)
 
+    val product = new ProductClass("test",1,1)
+    val bc = spark.sparkContext.broadcast[ProductClass](product)
+
     val hbaseInfoRDD = logDF.rdd.map(x => {
+
+      val bcValue = bc.value
+
       val ip = x.getAs[String]("ip")
       val country = x.getAs[String]("country")
       val province = x.getAs[String]("province")
