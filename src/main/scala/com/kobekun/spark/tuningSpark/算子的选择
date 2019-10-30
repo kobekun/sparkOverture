@@ -1,0 +1,46 @@
+
+
+map
+
+   //Return a new RDD by applying a function to all elements of this RDD.
+   def map[U: ClassTag](f: T => U): RDD[U]
+
+mapPartitions
+
+   //Return a new RDD by applying a function to each partition of this RDD.
+   def mapPartitions[U: ClassTag](
+        f: Iterator[T] => Iterator[U],
+        preservesPartitioning: Boolean = false): RDD[U]
+
+上面两个是transformation:转换算子
+
+    RDD = 2partitions (2 * 1w)
+        map 2w
+        mappartitions 2
+
+QA：转换算子能生产job吗？
+
+foreach
+    //Actions (launch a job to return a value to the user program)
+    //Applies a function f to all elements of this RDD.
+
+    def foreach(f: T => Unit): Unit
+
+foreachPartitions
+    //Applies a function f to each partition of this RDD.
+
+    def foreachPartition(f: Iterator[T] => Unit): Unit
+
+上面两个是action算子
+    如果涉及到写数据库操作，建议采用带partitions的
+    但是由于mapPartitions 是一个transformation算子，所以，建议使用foreachPartitions
+
+    如果数据非常大的话，通过partitions算子可能会出现OOM的操作
+                        如果用map的话，一条一条的执行，不会出现OOM
+
+    使用之前：  评估要处理的RDD的数据量、
+                每个partition的数据量
+                整个作业使用到的资源
+
+
+
