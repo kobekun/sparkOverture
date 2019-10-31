@@ -26,8 +26,10 @@ spark:
             使用DataFrame API進行統計分析
             使用SparkSQL API進行統計分析
 
+val df = spark.read.format("json").option("mode","dropmalformed").load("...json")
+发现里面有记录格式不正确的解析不出来的记录，可以把模式设置为dropmalformed
 
-
+option("mode","failfast")  解析不出来直接报错
 
 
 
