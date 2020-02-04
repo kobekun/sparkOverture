@@ -7,7 +7,13 @@ BaseRelation类有对schema定义的方法，TableScan中有构建Row的RDD的�
 schema+RDD[RDD] ==>  自定义数据源
 
 
-
+private[sql] case class JDBCRelation(
+    override val schema: StructType,
+    parts: Array[Partition],
+    jdbcOptions: JDBCOptions)(@transient val sparkSession: SparkSession)
+  extends BaseRelation
+  with PrunedFilteredScan
+  with InsertableRelation
 
 
 
