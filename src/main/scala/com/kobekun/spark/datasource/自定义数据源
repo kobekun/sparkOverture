@@ -1,0 +1,16 @@
+
+自定义数据源类需要实现特质RelationProvider或者SchemaRelationProvider特质，
+这两个特质是为了创建BaseRelation类，通过自定义一个类继承baseRelation类，实现TableScan特质，
+来完成对Relation类的创建。
+BaseRelation类有对schema定义的方法，TableScan中有构建Row的RDD的方法buildscan。
+
+schema+RDD[RDD] ==>  自定义数据源
+
+
+
+
+
+
+
+
+
